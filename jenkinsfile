@@ -1,13 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Build and Archive') {
+        stage('Build') {
             steps {
-                sh 'echo "This is our application artifact content" > app.txt'
-                archiveArtifacts artifacts: 'app.txt', fingerprint: true
+                echo "Running Multibranch Pipeline on branch: ${env.BRANCH_NAME}"
             }
         }
     }
 }
-                                                    
-
