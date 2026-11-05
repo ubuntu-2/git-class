@@ -1,16 +1,10 @@
 pipeline {
     agent any
-    
     stages {
-        stage('Use Credentials') {
+        stage('Build and Archive') {
             steps {
-                echo "Accessing secure credentials..."
-                withCredentials([string(credentialsId: 'demo-token', variable: 'SECRET_KEY')]) {
-                    sh 'echo "The token is: ****"'
-                    sh 'echo "The token is ${#SECRET_KEY} characters long"'
-                    sh 'echo "Warning: insecure Groovy String interpolation."'
-                    sh 'echo "Reversed: $(echo ${SECRET_KEY} | rev)"'
-                }
+                sh 'echo "This is our application artifact content" > app.txt'
+                archiveArtifacts artifacts: 'app.txt', fingerprint: true
             }
         }
     }
