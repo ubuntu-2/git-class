@@ -6,20 +6,14 @@ pipeline {
             steps {
                 echo "Accessing secure credentials..."
                 withCredentials([string(credentialsId: 'demo-token', variable: 'SECRET_KEY')]) {
-                    // הצגה מוסתרת כפי שמופיע בחוברת
-                    sh 'echo "The token is: **"'
-                    
-                    // בדיקת אורך הטוקן (14 תווי ה-SuperSecret123)
+                    sh 'echo "The token is: ****"'
                     sh 'echo "The token is ${#SECRET_KEY} characters long"'
-                    
-                    // אזהרת Groovy String interpolation
                     sh 'echo "Warning: insecure Groovy String interpolation."'
-                    
-                    // היפוך המחרוזת Reversed
                     sh 'echo "Reversed: $(echo ${SECRET_KEY} | rev)"'
                 }
             }
         }
     }
+}
                                                     
 
