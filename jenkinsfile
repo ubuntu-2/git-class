@@ -1,1 +1,24 @@
+groovy
+pipeline {
+    agent any
+
+    options {
+        disableConcurrentBuilds()
+    }
+
+    environment {
+        APP = "billing-api"
+        VERSION = "1.4.1"
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building ${env.APP} version ${env.VERSION}"
+            }
+        }
+    }
+}
+
+                                                                       
 
