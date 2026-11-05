@@ -2,46 +2,24 @@ pipeline {
     agent any
     
     stages {
-        stage('Retry Example') {
+        stage('Build') {
             steps {
-                echo "Trying up to 3 times if something fails..."
-                retry(3) {
-                    sh 'echo "Attempting task..."; exit 1'
-                }
+                echo "Building the application..."
             }
         }
         
-        stage('CatchError Example') {
+        stage('Approval') {
             steps {
-                echo "Catching error without failing the whole pipeline..."
-                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                    sh 'exit 1'
-                }
+                input message: "Approve deployment to production?", ok: "Ship it!"
             }
         }
         
-        stage('Timeout Example') {
+        stage('Deploy') {
             steps {
-                echo "Waiting with a timeout limit..."
-                timeout(time: 10, unit: 'SECONDS') {
-                    sh 'sleep 5'
-                }
+                echo "Deploying to production successfully!"
             }
         }
     }
 }
-    post {
-        always {
-            echo "POST: This will ALWAYS run, regardless of success or failure."
-        }
-        success {
-            echo "POST: This runs ONLY if the build succeeds."
-        }
-        failure {
-            echo "POST: This runs ONLY if the build fails."
-        }
-    }
-}
-
                                                                        
 
