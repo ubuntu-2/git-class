@@ -18,7 +18,12 @@ pipeline {
                 sh 'echo Single quotes in sh - the shell fills it in: $APP $VERSION'
             }
         }
-    }
+         stage('Lint') {
+            steps{
+                sh 'exit 1'
+             }
+         }
+     }
 }
 
                                                                        
