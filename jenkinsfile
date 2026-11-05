@@ -1,25 +1,15 @@
 pipeline {
     agent any
-    
+
     stages {
-        stage('Build') {
+        stage('Use Credentials') {
             steps {
-                echo "Building the application..."
-            }
-        }
-        
-        stage('Approval') {
-            steps {
-                input message: "Approve deployment to production?", ok: "Ship it!"
-            }
-        }
-        
-        stage('Deploy') {
-            steps {
-                echo "Deploying to production successfully!"
+                echo "Accessing secure credentials..."
+                withCredentials([string(credentialsId: 'demo-token', variable: 'SECRET_KEY')]) {
+                    sh 'echo "The secret key is loaded and masked automatically: ${SECRET_KEY}"'
+                }
             }
         }
     }
-}
-                                                                       
+                                                               
 
