@@ -1,29 +1,34 @@
 pipeline {
     agent any
-
-    options {
-        disableConcurrentBuilds()
+    
+    parameters {
+        booleanParam(name: 'SHOULD_FAIL', defaultValue: false, description: 'Fail build intentionally')
     }
-
-    environment {
-        APP = "billing-api"
-        VERSION = "1.4.1"
-    }
-
+    
     stages {
         stage('Build') {
             steps {
-                echo "Double quotes - Groovy fills it in: ${APP} ${VERSION}"
-                echo 'Single quotes - Groovy leaves it: ${APP} ${VERSION}'
-                sh 'echo Single quotes in sh - the shell fills it in: $APP $VERSION'
+                echo "Running build stage..."
+                script {
+                    if (params.SHOULD_FAIL) {
+                        error("Intentional failure triggered!")
+                    }
+                }
             }
         }
-         stage('Lint') {
-            steps{
-                sh 'exit 1'
-             }
-         }
-     }
+    }
+    
+    post {
+        always {
+            echo "POST: This will ALWAYS run, regardless of success or failure."
+        }
+        success {
+            echo "POST: This runs ONLY if the build succeeds."
+        }
+        failure {
+            echo "POST: This runs ONLY if the build fails."
+        }
+    }
 }
 
                                                                        
